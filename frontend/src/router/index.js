@@ -7,6 +7,11 @@ const router = createRouter({
       path: '/date',
       name: 'DateChoose',
       component: () => import('@/views/DateChose.vue')
+    },
+    {
+      path: "/",
+      name: "Home",
+      redirect: { name: 'DateChoose' }
     }
   ],
 })
