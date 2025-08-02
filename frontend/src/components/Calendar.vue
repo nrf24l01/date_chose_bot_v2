@@ -21,6 +21,12 @@
         <input class="tz-range-slider" type="range" v-model="selectedTz" min="0" max="22" />
       </div>
     </div>
+    <div>
+      <label>
+        <input type="checkbox" v-model="isDark" />
+        Dark Mode
+      </label>
+    </div>
   </div>
 </template>
 
@@ -28,47 +34,48 @@
 import { ref, computed } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
-  import { getMonth, getYear } from "date-fns";
+import { getMonth, getYear } from "date-fns";
 
-  const date = ref();
-  const selectedTz = ref(11);
-  
-  const timezone = ref({ timezone: undefined })
+const dates = ref([]);
+const selectedTz = ref(11);
 
-  const maxDate = computed(() => {
-    const month = getMonth(new Date()) + 1 > 9 ? getMonth(new Date()) + 1 : `0${getMonth(new Date()) + 1}`;
-    return `${getYear(new Date())}-${month}-15T01:00:00Z`;
-  });
+const timezone = ref({ timezone: undefined })
+const isDark = ref(false);
 
-  const timezones = [
-    { tz: 'Pacific/Midway', offset: -11 },
-    { tz: 'America/Adak', offset: -10 }, 
-    { tz: 'Pacific/Gambier', offset: -9 }, 
-    { tz: 'America/Los_Angeles', offset: -8 }, 
-    { tz: 'America/Denver', offset: -7 }, 
-    { tz: 'America/Chicago', offset: -6 }, 
-    { tz: 'America/New_York', offset: -5 }, 
-    { tz: 'America/Santiago', offset: -4 }, 
-    { tz: 'America/Sao_Paulo', offset: -3 }, 
-    { tz: 'America/Noronha', offset: -2 }, 
-    { tz: 'Atlantic/Cape_Verde', offset: -1 }, 
-    { tz: 'UTC', offset: 0 },
-    { tz: 'Europe/Brussels', offset: 1 }, 
-    { tz: 'Africa/Cairo', offset: 2 }, 
-    { tz: 'Europe/Minsk', offset: 3 }, 
-    { tz: 'Europe/Moscow', offset: 4 },
-    { tz: 'Asia/Tashkent', offset: 5 },
-    { tz: 'Asia/Dhaka', offset: 6 },
-    { tz: 'Asia/Novosibirsk', offset: 7 },
-    { tz: 'Australia/Perth', offset: 8 }, 
-    { tz: 'Asia/Tokyo', offset: 9 },
-    { tz: 'Australia/Hobart', offset: 10 },
-    { tz: 'Asia/Vladivostok', offset: 11 },
-  ];
+const maxDate = computed(() => {
+  const month = getMonth(new Date()) + 1 > 9 ? getMonth(new Date()) + 1 : `0${getMonth(new Date()) + 1}`;
+  return `${getYear(new Date())}-${month}-15T01:00:00Z`;
+});
 
-  const activeTz = computed(() => timezones[selectedTz.value]);
+const timezones = [
+  { tz: 'Pacific/Midway', offset: -11 },
+  { tz: 'America/Adak', offset: -10 }, 
+  { tz: 'Pacific/Gambier', offset: -9 }, 
+  { tz: 'America/Los_Angeles', offset: -8 }, 
+  { tz: 'America/Denver', offset: -7 }, 
+  { tz: 'America/Chicago', offset: -6 }, 
+  { tz: 'America/New_York', offset: -5 }, 
+  { tz: 'America/Santiago', offset: -4 }, 
+  { tz: 'America/Sao_Paulo', offset: -3 }, 
+  { tz: 'America/Noronha', offset: -2 }, 
+  { tz: 'Atlantic/Cape_Verde', offset: -1 }, 
+  { tz: 'UTC', offset: 0 },
+  { tz: 'Europe/Brussels', offset: 1 }, 
+  { tz: 'Africa/Cairo', offset: 2 }, 
+  { tz: 'Europe/Minsk', offset: 3 }, 
+  { tz: 'Europe/Moscow', offset: 4 },
+  { tz: 'Asia/Tashkent', offset: 5 },
+  { tz: 'Asia/Dhaka', offset: 6 },
+  { tz: 'Asia/Novosibirsk', offset: 7 },
+  { tz: 'Australia/Perth', offset: 8 }, 
+  { tz: 'Asia/Tokyo', offset: 9 },
+  { tz: 'Australia/Hobart', offset: 10 },
+  { tz: 'Asia/Vladivostok', offset: 11 },
+];
 
-  const tz = computed(() => {
-    return { ...timezone.value, timezone: activeTz.value.tz };
-  });
+const activeTz = computed(() => timezones[selectedTz.value]);
+
+const tz = computed(() => {
+  return { ...timezone.value, timezone: activeTz.value.tz };
+});
 </script>
