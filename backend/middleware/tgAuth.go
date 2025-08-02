@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"dateChoice/schemas"
-	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -35,12 +35,22 @@ func TGMiddleware() echo.MiddlewareFunc {
 				return c.JSON(http.StatusInternalServerError, schemas.Error{Error: "Server error"})
 			}
 			expInHour := time.Duration(expIn) * time.Hour
-
-			err = initdata.Validate(tokenString, os.Getenv("BOT_TOKEN"), expInHour)
+			
+			verifyErr := initdata.Validate(tokenString, os.Getenv("BOT_TOKEN"), expInHour)
+			if verifyErr != nil {
+				return c.JSON(http.StatusUnauthorized, schemas.Error{Error: "invalid token"})
+			}
+			tokenData, err := initdata.Parse(tokenString)
 			if err != nil {
 				return c.JSON(http.StatusUnauthorized, schemas.Error{Error: "invalid token"})
 			}
-			fmt.Println(initdata.Parse(tokenString))
+			if tokenData.User.ID != 0 {
+				c.Set("userID", tokenData.User.ID)
+				c.Set("userName", tokenData.User.Username)
+				log.Printf("User ID: %d, Username: %s", tokenData.User.ID, tokenData.User.Username)
+			} else {
+				return c.JSON(http.StatusUnauthorized, schemas.Error{Error: "token does not contain user data"})
+			}
 			return next(c)
 		}
 	}

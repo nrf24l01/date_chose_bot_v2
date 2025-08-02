@@ -2,6 +2,7 @@ package main
 
 import (
 	"dateChoice/handlers"
+	"dateChoice/middleware"
 	"dateChoice/models"
 	"dateChoice/routes"
 	"dateChoice/schemas"
@@ -9,6 +10,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
 
 	"github.com/labstack/echo/v4"
@@ -26,6 +28,8 @@ func main() {
 
 	e := echo.New()
 
+	// Register custom validator
+	e.Validator = &middleware.CustomValidator{Validator: validator.New()}
 
 	if os.Getenv("RUNTIME_PRODUCTION") != "true" {
 		e.Use(echoMw.Logger())
