@@ -3,30 +3,14 @@
     <div class="dp-container-wrap">
       <VueDatePicker 
         v-model="dates" 
-        :dark="isDark"
-        :timezone="tz" 
+        :dark=false
+        :timezone="Europe/Moscow" 
         inline 
         auto-apply
         :max-date="maxDate"
         :enable-time-picker="false"
         multi-dates
       />
-    </div>
-    <div class="tz-range-slider-wrap">
-      <div>
-        <span>Timezone: {{ activeTz.tz }}</span>
-        <br />
-        <span>Offset: {{ activeTz.offset > 0 ? `+${activeTz.offset}` : activeTz.offset }}</span>
-      </div>
-      <div>
-        <input class="tz-range-slider" type="range" v-model="selectedTz" min="0" max="22" />
-      </div>
-    </div>
-    <div>
-      <label>
-        <input type="checkbox" v-model="isDark" />
-        Dark Mode
-      </label>
     </div>
     <div class="selected-dates-list mt-4">
       <h3>Selected Dates:</h3>
