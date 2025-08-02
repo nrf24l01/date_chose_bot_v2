@@ -42,27 +42,19 @@
       />
     </div>
 
-    <div v-if="authorized">
-      <ul>
-        <li v-for="date in selectedDates" :key="date.id">
-          {{ formatDate(date) }}
-        </li>
-      </ul>
-    </div>
-
     <div v-if="authorized" class="w-full max-w-md px-4 py-2 mb-2">
       <div class="text-center" :style="{ color: tgTheme.hint_color }">
-        Выбранная дата: {{ formatDate(selectedDate) }}
+        Выбрано дат {{ selectedDates.length}}
       </div>
       <button
         class="mt-4 w-full py-2 rounded-lg font-semibold shadow transition-colors"
         :style="{
           background: tgTheme.button_color,
           color: tgTheme.button_text_color,
-          opacity: selectedDate ? 1 : 0.5,
-          cursor: selectedDate ? 'pointer' : 'not-allowed'
+          opacity: selectedDates.length > 0 ? 1 : 0.5,
+          cursor: selectedDates.length > 0 ? 'pointer' : 'not-allowed'
         }"
-        :disabled="!selectedDate || loading"
+        :disabled="selectedDates.length == 0 || loading"
         @click="confirmSelection"
       >
         Подтвердить
