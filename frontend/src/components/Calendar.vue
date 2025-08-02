@@ -8,6 +8,7 @@
         inline 
         auto-apply
         :max-date="maxDate"
+        :enable-time-picker="false"
         multi-dates
       />
     </div>
@@ -26,6 +27,14 @@
         <input type="checkbox" v-model="isDark" />
         Dark Mode
       </label>
+    </div>
+    <div class="selected-dates-list mt-4">
+      <h3>Selected Dates:</h3>
+      <ul>
+        <li v-for="(date, idx) in dates" :key="idx">
+          {{ date }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
