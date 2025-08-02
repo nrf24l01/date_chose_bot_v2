@@ -1,9 +1,9 @@
 package schemas
 
 type Message struct {
-	Status string `json:"messsage"`
+	Status string `json:"status"`
 }
 
 type Error struct {
-	Error string `json:"message"`
+	Error string `json:"error"`
 }
