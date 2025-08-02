@@ -33,8 +33,9 @@
       <Calendar
         v-if="authorized"
         v-model="selectedDates"
-        :min-date="'2023-01-01T00:00:00Z'"
-        :max-date="'2025-12-31T23:59:59Z'"
+        :min-date="minDate"
+        :max-date="maxDate"
+        :disabled="selectedDates[0] === unavailableValue"
       />
       <Error
         v-else
@@ -44,7 +45,12 @@
 
     <div v-if="authorized" class="w-full max-w-md px-4 py-2 mb-2">
       <div class="text-center" :style="{ color: tgTheme.hint_color }">
-        Выбрано дат {{ selectedDates.length}}
+        <template v-if="selectedDates[0] !== unavailableValue">
+          Выбрано дат {{ selectedDates.length }}
+        </template>
+        <template v-else>
+          Вы не можете пойти :(
+        </template>
       </div>
       <button
         class="mt-4 w-full py-2 rounded-lg font-semibold shadow transition-colors"
@@ -58,6 +64,22 @@
         @click="confirmSelection"
       >
         Подтвердить
+      </button>
+      <!-- Switcher button for unavailable -->
+      <button
+        class="mt-2 w-full py-2 rounded-lg font-semibold shadow transition-colors border flex items-center justify-center"
+        :style="{
+          background: selectedDates[0] === unavailableValue ? tgTheme.button_color : tgTheme.secondary_bg_color,
+          color: selectedDates[0] === unavailableValue ? tgTheme.button_text_color : tgTheme.button_color,
+          borderColor: tgTheme.button_color,
+          opacity: 1,
+        }"
+        type="button"
+        @click="toggleUnavailable"
+      >
+        <span>
+          {{ selectedDates[0] === unavailableValue ? 'Я не смогу попасть' : 'Я смогу попасть' }}
+        </span>
       </button>
     </div>
 
@@ -81,6 +103,7 @@ const selectedDate = ref(null);
 const selectedDates = ref([]);
 const feedbackMessage = ref('');
 const isError = ref(false);
+const unavailableValue = '0001-01-01';
 
 // Telegram WebApp instance
 const tg = window.Telegram?.WebApp;
@@ -115,6 +138,10 @@ const tgTheme = computed(() => ({
   button_text_color: tg?.themeParams?.button_text_color || '#ffffff',
   hint_color: tg?.themeParams?.hint_color || '#999999',
 }));
+
+// Move env variables to script
+const minDate = import.meta.env.VITE_ALLOW_FROM + 'T00:00:00Z';
+const maxDate = import.meta.env.VITE_ALLOW_TO + 'T23:59:59Z';
 
 // Handle date selection
 function handleDateSelection(date) {
@@ -160,6 +187,15 @@ async function confirmSelection() {
     console.error(error);
   } finally {
     loading.value = false;
+  }
+}
+
+// Mark/unmark as unavailable (switcher)
+function toggleUnavailable() {
+  if (selectedDates.value[0] === unavailableValue) {
+    selectedDates.value = [];
+  } else {
+    selectedDates.value = [unavailableValue];
   }
 }
 

@@ -11,6 +11,7 @@
         :max-date="props.maxDate"
         :min-date="props.minDate"
         :enable-time-picker="false"
+        :disabled="props.disabled"
         multi-dates
       />
     </div>
@@ -34,6 +35,10 @@ const props = defineProps({
   modelValue: {
     type: Array,
     default: () => []
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 });
 
