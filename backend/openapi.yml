@@ -1,0 +1,108 @@
+openapi: 3.0.3
+info:
+  title: Date Choice Bot API
+  version: 1.0.0
+  description: API for a bot that allows users to choose dates and view all selections.
+
+servers:
+  - url: /api
+
+paths:
+  /dates/choose:
+    post:
+      summary: User selects dates
+      description: User submits their chosen dates.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: Telegram initData for authentication (tma)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - dates
+              properties:
+                dates:
+                  type: array
+                  description: List of selected dates (YYYY-MM-DD)
+                  items:
+                    type: string
+                    format: date
+      responses:
+        '200':
+          description: Dates successfully saved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+        '400':
+          description: Invalid request (e.g., missing or malformed dates)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid dates format
+        '401':
+          description: Unauthorized (invalid or missing tma-init-data)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized
+
+
+  /dates/all:
+    get:
+      summary: Get all date choices
+      description: Returns all users and their selected dates.
+      responses:
+        '200':
+          description: List of users and their chosen dates
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+                    format: date
+                example:
+                  user1: ["2024-06-01", "2024-06-05"]
+                  user2: ["2024-06-02"]
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Unauthorized (invalid or missing tma-init-data)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized
