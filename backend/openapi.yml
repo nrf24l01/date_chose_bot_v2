@@ -8,7 +8,7 @@ servers:
   - url: /api
 
 paths:
-  /dates/choose:
+  /date/choice:
     post:
       summary: User selects dates
       description: User submits their chosen dates.
