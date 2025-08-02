@@ -160,34 +160,44 @@ function formatDate(date) {
 
 // Handle confirmation (send to backend, then close WebApp)
 async function confirmSelection() {
-  if (!selectedDate.value) {
+  if (selectedDates.length === 0) {
     showFeedback('Пожалуйста, выберите дату', true);
     return;
   }
   loading.value = true;
   try {
     // Отправка данных на бэкенд
-    const response = await fetch('/api/choose-date', {
+    const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/date/choice', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Authorization": `tma ${tg.initData}`
       },
       body: JSON.stringify({
-        date: selectedDate.value,
-        user_id: userId.value
+        dates: selectedDates.value.map(date =>
+          date === unavailableValue
+            ? unavailableValue
+            : (typeof date === 'string'
+                ? date.slice(0, 10)
+                : new Date(date).toISOString().slice(0, 10))
+        )
       })
     });
-    if (!response.ok) throw new Error('Ошибка ответа сервера');
+    if (!response.ok) {
+      const errorText = await response.text();
+      showFeedback(`Ошибка ответа сервера: ${response.status} ${errorText}`, true);
+      throw `Ошибка ответа сервера: ${response.status} ${errorText}`;
+    }
     showFeedback('Дата подтверждена!');
     setTimeout(() => {
       tg?.close();
-    }, 1000);
-  } catch (error) {
-    showFeedback('Ошибка при отправке данных', true);
+    }, 3000);
+    } catch (error) {
+    showFeedback(`Ошибка при отправке данных: ${error?.message || error}`, true);
     console.error(error);
-  } finally {
+    } finally {
     loading.value = false;
-  }
+    }
 }
 
 // Mark/unmark as unavailable (switcher)
