@@ -18,8 +18,8 @@
       Пикник планер
       </div>
       <div class="text-sm font-medium text-center">
-      {{ initdata?.user?.first_name }} {{ initdata?.user?.last_name }}
-      <span v-if="initdata?.user?.id" class="text-xs text-gray-400">({{ initdata.user.id }})</span>
+      {{ initdata?.user?.first_name }} {{ initdata?.user?.last_name || 'Guest' }}
+      <span v-if="initdata?.user?.id" class="text-xs text-gray-400">({{ initdata?.user?.id || '-52' }})</span>
       </div>
     </div>
 
