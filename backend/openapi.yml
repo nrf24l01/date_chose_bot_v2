@@ -66,6 +66,52 @@ paths:
                     type: string
                     example: Unauthorized
 
+  /dates/choiced:
+    get:
+      summary: Get user's date choices
+      description: Returns the dates selected by the user.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: Telegram initData for authentication (tma)
+      responses:
+        '200':
+          description: User's selected dates
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dates:
+                    type: array
+                    items:
+                      type: string
+                      format: date
+                example:
+                  dates: ["2024-06-01", "2024-06-05"]
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Unauthorized (invalid or missing tma-init-data)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized
 
   /dates/all:
     get:
