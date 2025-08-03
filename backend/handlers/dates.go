@@ -27,13 +27,15 @@ func (h *Handler) DateChoiceHandler(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, schemas.Error{Error: "Invalid ALLOW_TO format"})
 	}
 
-	for _, dateStr := range dates.Dates {
-		dateTime, err := time.Parse(layout, dateStr)
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, schemas.Error{Error: "Invalid date format (YYYY-MM-DD)"})
-		}
-		if dateTime.Before(allowFromTime) || dateTime.After(allowToTime) {
-			return c.JSON(http.StatusBadRequest, schemas.Error{Error: "Date out of allowed range (YYYY-MM-DD)"})
+	if len(dates.Dates) != 1 || dates.Dates[0] != "0001-01-01" {
+		for _, dateStr := range dates.Dates {
+			dateTime, err := time.Parse(layout, dateStr)
+			if err != nil {
+				return c.JSON(http.StatusBadRequest, schemas.Error{Error: "Invalid date format (YYYY-MM-DD)"})
+			}
+			if dateTime.Before(allowFromTime) || dateTime.After(allowToTime) {
+				return c.JSON(http.StatusBadRequest, schemas.Error{Error: "Date out of allowed range (YYYY-MM-DD)"})
+			}
 		}
 	}
 
