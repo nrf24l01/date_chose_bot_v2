@@ -22,7 +22,7 @@ class BackendAPI:
             response.raise_for_status()
             return await response.json()
 
-    async def get_user_choices(self, user_id: int) -> Optional[List[str]]:
+    async def get_user_choice(self, user_id: int) -> Optional[List[str]]:
         users_votes = await self.get_users_votes()
         for user_vote in users_votes:
             if user_vote.get("user_id") == user_id:
