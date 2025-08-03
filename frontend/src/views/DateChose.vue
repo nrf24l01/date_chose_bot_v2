@@ -190,9 +190,6 @@ async function confirmSelection() {
       throw `Ошибка ответа сервера: ${response.status} ${errorText}`;
     }
     showFeedback('Дата подтверждена!');
-    setTimeout(() => {
-      tg?.close();
-    }, 3000);
     } catch (error) {
     showFeedback(`Ошибка при отправке данных: ${error?.message || error}`, true);
     console.error(error);
