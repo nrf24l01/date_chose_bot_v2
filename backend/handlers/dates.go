@@ -66,3 +66,17 @@ func (h *Handler) GetUserDateChoiceHandler(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, schemas.UserDateChoiceResponse{Dates: userChoice.SelectedDates})
 }
+
+func (h *Handler) GetAllUserChoiceHandler(c echo.Context) error {
+	var userChoices []models.UserChoice
+	if err := h.DB.Find(&userChoices).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, schemas.Error{Error: "Server error"})
+	}
+
+	result := make(map[int64][]string)
+	for _, choice := range userChoices {
+		result[choice.UserID] = choice.SelectedDates
+	}
+
+	return c.JSON(http.StatusOK, result)
+}

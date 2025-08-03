@@ -16,4 +16,5 @@ func RegisterDateRoutes(e *echo.Echo, h* handlers.Handler) {
 	}))
 
 	group.GET("/choiced", h.GetUserDateChoiceHandler, middleware.TGMiddleware())
+	group.GET("/all", h.GetAllUserChoiceHandler)
 }
