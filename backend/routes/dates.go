@@ -14,4 +14,6 @@ func RegisterDateRoutes(e *echo.Echo, h* handlers.Handler) {
 	group.POST("/choice", h.DateChoiceHandler, middleware.TGMiddleware(), middleware.ValidationMiddleware(func() interface{} {
 		return &schemas.DateChoiceRequest{}
 	}))
+
+	group.GET("/choiced", h.GetUserDateChoiceHandler, middleware.TGMiddleware())
 }

@@ -54,3 +54,15 @@ func (h *Handler) DateChoiceHandler(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, schemas.Message{Status: "Dates saved successfully"})
 }
+
+func (h *Handler) GetUserDateChoiceHandler(c echo.Context) error {
+	var userChoice models.UserChoice
+	if err := h.DB.First(&userChoice, "user_id = ?", c.Get("userID")).Error; err != nil {
+		if err.Error() == "record not found" {
+			return c.JSON(http.StatusOK, schemas.UserDateChoiceResponse{Dates: []string{}})
+		}
+		return c.JSON(http.StatusInternalServerError, schemas.Error{Error: "Server error"})
+	}
+
+	return c.JSON(http.StatusOK, schemas.UserDateChoiceResponse{Dates: userChoice.SelectedDates})
+}
