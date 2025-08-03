@@ -116,6 +116,7 @@ onMounted(() => {
     initdata.value = tg.initDataUnsafe;
     if (initdata.value?.user?.id) {
       authorized.value = true;
+      getPreviousDates();
     }
   }
   loading.value = false;
@@ -217,5 +218,26 @@ function showFeedback(message, error = false) {
   setTimeout(() => {
     feedbackMessage.value = '';
   }, 3000);
+}
+
+async function getPreviousDates() {
+  const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/date/choiced', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `tma ${tg.initData}`
+      }
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    showFeedback(`Ошибка ответа сервера: ${response.status} ${errorText}`, true);
+    throw `Ошибка ответа сервера: ${response.status} ${errorText}`;
+  }
+  const data = await response.json();
+  selectedDates.value = Array.isArray(data.dates)
+    ? data.dates.map(date =>
+        date === unavailableValue ? unavailableValue : `${date}T00:00:00Z`
+      )
+    : [];
 }
 </script>
