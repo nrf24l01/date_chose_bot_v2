@@ -73,9 +73,13 @@ func (h *Handler) GetAllUserChoiceHandler(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, schemas.Error{Error: "Server error"})
 	}
 
-	result := make(map[int64][]string)
-	for _, choice := range userChoices {
-		result[choice.UserID] = choice.SelectedDates
+	result := make([]schemas.VotedUser, len(userChoices))
+	for i, choice := range userChoices {
+		result[i] = schemas.VotedUser{
+			UserID:   choice.UserID,
+			UserName: choice.UserName,
+			Dates:    choice.SelectedDates,
+		}
 	}
 
 	return c.JSON(http.StatusOK, result)

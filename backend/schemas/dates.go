@@ -7,3 +7,9 @@ type DateChoiceRequest struct {
 type UserDateChoiceResponse struct {
 	Dates []string `json:"dates"`
 }
+
+type VotedUser struct {
+	UserID   int64    `json:"user_id"`
+	UserName string   `json:"user_name"`
+	Dates    []string `json:"dates"`
+}
