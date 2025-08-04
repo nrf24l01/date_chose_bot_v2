@@ -36,6 +36,15 @@ jobs:
       - name: Приведение имени репозитория к нижнему регистру
         run: echo "REPO_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
+      - name: Проверка переменной с ключом BACKEND_URL
+        run: |
+          if [[ -z "${{ env.BACKEND_URL }}" ]]; then
+            echo "Ошибка: BACKEND_URL пустая!"
+            exit 1
+          else
+            echo "BACKEND_URL загружена корректно."
+          fi
+
       - name: Сборка и пуш образа frontend
         uses: docker/build-push-action@v5
         with:
@@ -47,6 +56,6 @@ jobs:
             cache-from: type=gha
             cache-to: type=gha,mode=max
             build-args: |
-              VITE_BACKEND_URL=${{ env.VITE_BACKEND_URL }}
-              VITE_ALLOW_FROM=${{ env.VITE_ALLOW_FROM }}
-              VITE_ALLOW_TO=${{ env.VITE_ALLOW_TO }}
+              VITE_BACKEND_URL=${{ env.BACKEND_URL }}
+              VITE_ALLOW_FROM=${{ env.ALLOW_FROM }}
+              VITE_ALLOW_TO=${{ env.ALLOW_TO }}
