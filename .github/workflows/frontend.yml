@@ -38,7 +38,7 @@ jobs:
 
       - name: Проверка переменной с ключом BACKEND_URL
         run: |
-          if [[ -z "${{ env.BACKEND_URL }}" ]]; then
+          if [[ -z "${{ vars.BACKEND_URL }}" ]]; then
             echo "Ошибка: BACKEND_URL пустая!"
             exit 1
           else
@@ -56,6 +56,6 @@ jobs:
             cache-from: type=gha
             cache-to: type=gha,mode=max
             build-args: |
-              VITE_BACKEND_URL=${{ env.BACKEND_URL }}
-              VITE_ALLOW_FROM=${{ env.ALLOW_FROM }}
-              VITE_ALLOW_TO=${{ env.ALLOW_TO }}
+              VITE_BACKEND_URL=${{ vars.BACKEND_URL }}
+              VITE_ALLOW_FROM=${{ vars.ALLOW_FROM }}
+              VITE_ALLOW_TO=${{ vars.ALLOW_TO }}
