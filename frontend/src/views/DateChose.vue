@@ -171,7 +171,6 @@ async function confirmSelection() {
   }
   loading.value = true;
   try {
-    // Отправка данных на бэкенд
     const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/date/choice', {
       method: 'POST',
       headers: {
@@ -179,13 +178,12 @@ async function confirmSelection() {
         "Authorization": `tma ${tg.initData}`
       },
       body: JSON.stringify({
-        dates: selectedDates.value.map(date =>
-          date === unavailableValue
-            ? unavailableValue
-            : (typeof date === 'string'
-                ? date.slice(0, 10)
-                : new Date(date).toISOString().slice(0, 10))
-        )
+        dates: selectedDates.value.map(date => {
+          if (date === unavailableValue) return unavailableValue;
+          const d = typeof date === 'string' ? new Date(date) : date;
+          const gmt3 = new Date(d.getTime() + 3 * 60 * 60 * 1000);
+          return gmt3.toISOString().slice(0, 10);
+        })
       })
     });
     if (!response.ok) {
