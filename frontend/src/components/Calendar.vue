@@ -1,7 +1,7 @@
 <template>
   <div class="tz-demo-wrap">
     <div class="dp-container-wrap">
-      <div class="dp__theme_light" :style="dpThemeVars">
+      <div class="dp__theme_light">
         <VueDatePicker 
           :model-value="modelValue"
           @update:model-value="onUpdate"
@@ -41,10 +41,6 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
-  },
-  dpThemeVars: {
-    type: Object,
-    default: () => ({})
   }
 });
 
@@ -56,7 +52,5 @@ function onUpdate(value) {
 </script>
 
 <style>
-.dp__theme_light {
-  /* CSS-переменные будут переопределяться через :style, но класс должен быть объявлен */
-}
+.dp__theme_light {}
 </style>

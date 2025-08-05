@@ -274,3 +274,35 @@ async function getPreviousDates() {
     : [];
 }
 </script>
+
+<style>
+.dp__theme_light {
+  --dp-background-color: var(--tg-theme-bg-color, #fff);
+  --dp-text-color: var(--tg-theme-text-color, #212121);
+  --dp-hover-color: var(--tg-theme-secondary-bg-color, #f3f3f3);
+  --dp-hover-text-color: var(--tg-theme-text-color, #212121);
+  --dp-hover-icon-color: var(--tg-theme-hint-color, #959595);
+  --dp-primary-color: var(--tg-theme-button-color, #1976d2);
+  --dp-primary-disabled-color: var(--tg-theme-hint-color, #6bacea);
+  --dp-primary-text-color: var(--tg-theme-button-text-color, #f8f5f5);
+  --dp-secondary-color: var(--tg-theme-secondary-bg-color, #c0c4cc);
+  --dp-border-color: var(--tg-theme-hint-color, #ddd);
+  --dp-menu-border-color: var(--tg-theme-hint-color, #ddd);
+  --dp-border-color-hover: var(--tg-theme-button-color, #aaaeb7);
+  --dp-border-color-focus: var(--tg-theme-button-color, #aaaeb7);
+  --dp-disabled-color: var(--tg-theme-secondary-bg-color, #f6f6f6);
+  --dp-scroll-bar-background: var(--tg-theme-secondary-bg-color, #f3f3f3);
+  --dp-scroll-bar-color: var(--tg-theme-hint-color, #959595);
+  --dp-success-color: #76d275;
+  --dp-success-color-disabled: #a3d9b1;
+  --dp-icon-color: var(--tg-theme-hint-color, #959595);
+  --dp-danger-color: var(--tg-theme-hint-color, #ff6f60);
+  --dp-marker-color: var(--tg-theme-button-color, #ff6f60);
+  --dp-tooltip-color: var(--tg-theme-secondary-bg-color, #fafafa);
+  --dp-disabled-color-text: var(--tg-theme-hint-color, #8e8e8e);
+  --dp-highlight-color: color-mix(in srgb, var(--tg-theme-button-color, #1976d2) 10%, transparent);
+  --dp-range-between-dates-background-color: var(--tg-theme-secondary-bg-color, #f3f3f3);
+  --dp-range-between-dates-text-color: var(--tg-theme-text-color, #212121);
+  --dp-range-between-border-color: var(--tg-theme-secondary-bg-color, #f3f3f3);
+}
+</style>
