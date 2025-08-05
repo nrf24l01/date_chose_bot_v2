@@ -1,19 +1,21 @@
 <template>
   <div class="tz-demo-wrap">
     <div class="dp-container-wrap">
-      <VueDatePicker 
-        :model-value="modelValue"
-        @update:model-value="onUpdate"
-        :dark="false"
-        :timezone="'Europe/Moscow'" 
-        inline 
-        auto-apply
-        :max-date="props.maxDate"
-        :min-date="props.minDate"
-        :enable-time-picker="false"
-        :disabled="props.disabled"
-        multi-dates
-      />
+      <div class="dp__theme_light" :style="dpThemeVars">
+        <VueDatePicker 
+          :model-value="modelValue"
+          @update:model-value="onUpdate"
+          :dark="false"
+          :timezone="'Europe/Moscow'" 
+          inline 
+          auto-apply
+          :max-date="props.maxDate"
+          :min-date="props.minDate"
+          :enable-time-picker="false"
+          :disabled="props.disabled"
+          multi-dates
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +41,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  dpThemeVars: {
+    type: Object,
+    default: () => ({})
   }
 });
 
@@ -48,3 +54,9 @@ function onUpdate(value) {
   emit('update:modelValue', value);
 }
 </script>
+
+<style>
+.dp__theme_light {
+  /* CSS-переменные будут переопределяться через :style, но класс должен быть объявлен */
+}
+</style>
