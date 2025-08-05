@@ -221,11 +221,11 @@ function showFeedback(message, error = false) {
 
 async function getPreviousDates() {
   const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/date/choiced', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `tma ${tg.initData}`
-      }
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `tma ${tg.initData}`
+    }
   });
   if (!response.ok) {
     const errorText = await response.text();
@@ -235,7 +235,9 @@ async function getPreviousDates() {
   const data = await response.json();
   selectedDates.value = Array.isArray(data.dates)
     ? data.dates.map(date =>
-        date === unavailableValue ? unavailableValue : `${date}T00:12:00Z`
+        date === unavailableValue
+          ? unavailableValue
+          : new Date(date + 'T00:00:00+03:00')
       )
     : [];
 }
