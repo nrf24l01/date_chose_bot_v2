@@ -36,7 +36,6 @@
         :min-date="minDate"
         :max-date="maxDate"
         :disabled="selectedDates[0] === unavailableValue"
-        :dp-theme-vars="dpThemeVars"
       />
       <Error
         v-else
@@ -144,37 +143,6 @@ const tgTheme = computed(() => ({
 function safe(themeValue, fallback) {
   return themeValue && typeof themeValue === 'string' && themeValue.trim() !== '' ? themeValue : fallback;
 }
-
-// Datepicker theme variables based on Telegram theme
-const dpThemeVars = computed(() => ({
-  '--dp-background-color': safe(tgTheme.value.bg_color, '#fff'),
-  '--dp-text-color': safe(tgTheme.value.text_color, '#212121'),
-  '--dp-hover-color': safe(tgTheme.value.secondary_bg_color, '#f3f3f3'),
-  '--dp-hover-text-color': safe(tgTheme.value.text_color, '#212121'),
-  '--dp-hover-icon-color': safe(tgTheme.value.hint_color, '#959595'),
-  '--dp-primary-color': safe(tgTheme.value.button_color, '#1976d2'),
-  '--dp-primary-disabled-color': safe(tgTheme.value.hint_color, '#6bacea'),
-  '--dp-primary-text-color': safe(tgTheme.value.button_text_color, '#f8f5f5'),
-  '--dp-secondary-color': safe(tgTheme.value.secondary_bg_color, '#c0c4cc'),
-  '--dp-border-color': safe(tgTheme.value.hint_color, '#ddd'),
-  '--dp-menu-border-color': safe(tgTheme.value.hint_color, '#ddd'),
-  '--dp-border-color-hover': safe(tgTheme.value.button_color, '#aaaeb7'),
-  '--dp-border-color-focus': safe(tgTheme.value.button_color, '#aaaeb7'),
-  '--dp-disabled-color': safe(tgTheme.value.secondary_bg_color, '#f6f6f6'),
-  '--dp-scroll-bar-background': safe(tgTheme.value.secondary_bg_color, '#f3f3f3'),
-  '--dp-scroll-bar-color': safe(tgTheme.value.hint_color, '#959595'),
-  '--dp-success-color': '#76d275',
-  '--dp-success-color-disabled': '#a3d9b1',
-  '--dp-icon-color': safe(tgTheme.value.hint_color, '#959595'),
-  '--dp-danger-color': safe(tgTheme.value.hint_color, '#ff6f60'),
-  '--dp-marker-color': safe(tgTheme.value.button_color, '#ff6f60'),
-  '--dp-tooltip-color': safe(tgTheme.value.secondary_bg_color, '#fafafa'),
-  '--dp-disabled-color-text': safe(tgTheme.value.hint_color, '#8e8e8e'),
-  '--dp-highlight-color': safe(tgTheme.value.button_color, 'rgb(25 118 210 / 10%)') + (safe(tgTheme.value.button_color, '').length === 7 ? '22' : ''),
-  '--dp-range-between-dates-background-color': safe(tgTheme.value.secondary_bg_color, '#f3f3f3'),
-  '--dp-range-between-dates-text-color': safe(tgTheme.value.text_color, '#212121'),
-  '--dp-range-between-border-color': safe(tgTheme.value.secondary_bg_color, '#f3f3f3'),
-}));
 
 // Move env variables to script
 const minDate = import.meta.env.VITE_ALLOW_FROM + 'T00:00:00Z';
