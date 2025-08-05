@@ -3,7 +3,7 @@
 [![Backend CI/CD](https://github.com/NRF24l01/date_chose_bot_v2/actions/workflows/backend.yml/badge.svg)](https://github.com/NRF24l01/date_chose_bot_v2/actions/workflows/backend.yml)
 [![Tg Bot CI/CD](https://github.com/NRF24l01/date_chose_bot_v2/actions/workflows/bot.yml/badge.svg)](https://github.com/NRF24l01/date_chose_bot_v2/actions/workflows/bot.yml)
 
-Сервис для выбора даты пикник, основной функционал через web app в телеграме.
+Сервис для выбора даты пикника, основной функционал через web app в телеграме.
 
 ## Запуск в проде
 ```shell
@@ -14,6 +14,8 @@ docker compose up
 
 ## Запуск для разработки
 ```shell
-docker compose up --build
+git clone https://github.com/NRF24l01/date_chose_bot_v2
+cd date_chose_bot_v2
+docker compose -f test.docker-compose.yml up --build
 ```
 *Обязательно нужен проброс с домена с https на 6000 порт локальной машины*
