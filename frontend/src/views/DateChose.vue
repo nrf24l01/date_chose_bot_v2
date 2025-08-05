@@ -267,7 +267,7 @@ async function getPreviousDates() {
   --dp-danger-color: var(--tg-theme-hint-color, #ff6f60);
   --dp-marker-color: var(--tg-theme-button-color, #ff6f60);
   --dp-tooltip-color: var(--tg-theme-secondary-bg-color, #fafafa);
-  --dp-disabled-color-text: var(--tg-theme-secondary-bg-color, #8e8e8e);
+  --dp-disabled-color-text: var(--tg-theme-hint-bg-color, #8e8e8e);
   --dp-highlight-color: color-mix(in srgb, var(--tg-theme-button-color, #1976d2) 10%, transparent);
   --dp-range-between-dates-background-color: var(--tg-theme-secondary-bg-color, #f3f3f3);
   --dp-range-between-dates-text-color: var(--tg-theme-text-color, #212121);
