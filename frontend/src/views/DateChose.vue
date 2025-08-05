@@ -237,7 +237,7 @@ async function getPreviousDates() {
   const data = await response.json();
   selectedDates.value = Array.isArray(data.dates)
     ? data.dates.map(date =>
-        date === unavailableValue ? unavailableValue : `${date}T00:00:00Z`
+        date === unavailableValue ? unavailableValue : `${date}T00:12:00Z`
       )
     : [];
 }
