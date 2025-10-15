@@ -15,6 +15,6 @@ type VotedUser struct {
 }
 
 type IntervalResponse struct {
-	From string `json:"from"`
-	To   string `json:"to"`
+	StartDate string `json:"start_date"`
+	EndDate   string `json:"end_date"`
 }
