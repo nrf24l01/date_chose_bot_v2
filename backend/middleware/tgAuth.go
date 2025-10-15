@@ -38,11 +38,11 @@ func TGMiddleware() echo.MiddlewareFunc {
 			
 			verifyErr := initdata.Validate(tokenString, os.Getenv("BOT_TOKEN"), expInHour)
 			if verifyErr != nil {
-				return c.JSON(http.StatusUnauthorized, schemas.Error{Error: "invalid token"})
+				return c.JSON(http.StatusUnauthorized, schemas.Error{Error: "invalid token (v)"})
 			}
 			tokenData, err := initdata.Parse(tokenString)
 			if err != nil {
-				return c.JSON(http.StatusUnauthorized, schemas.Error{Error: "invalid token"})
+				return c.JSON(http.StatusUnauthorized, schemas.Error{Error: "invalid token (p)"})
 			}
 			if tokenData.User.ID != 0 {
 				c.Set("userID", tokenData.User.ID)
