@@ -90,7 +90,7 @@ func (h *Handler) GetIntervalHandler(c echo.Context) error {
 	allowTo := os.Getenv("ALLOW_TO")
 
 	return c.JSON(http.StatusOK, schemas.IntervalResponse{
-		From: allowFrom,
-		To:   allowTo,
+		StartDate: allowFrom,
+		EndDate:   allowTo,
 	})
 }
