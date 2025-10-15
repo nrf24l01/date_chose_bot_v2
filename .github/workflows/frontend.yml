@@ -48,5 +48,3 @@ jobs:
             cache-to: type=gha,mode=max
             build-args: |
               VITE_BACKEND_URL=${{ vars.BACKEND_URL }}
-              VITE_ALLOW_FROM=${{ vars.ALLOW_FROM }}
-              VITE_ALLOW_TO=${{ vars.ALLOW_TO }}

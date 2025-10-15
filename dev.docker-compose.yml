@@ -65,9 +65,7 @@ services:
       context: frontend/
       dockerfile: Dockerfile
       args:
-        - VITE_BACKEND_URL=${VITE_BACKEND_URL}
-        - VITE_ALLOW_FROM=${VITE_ALLOW_FROM}
-        - VITE_ALLOW_TO=${VITE_ALLOW_TO}
+        - VITE_BACKEND_URL=${VITE_BACKEND_URL
     env_file:
       - .env
     expose:
