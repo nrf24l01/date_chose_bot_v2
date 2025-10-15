@@ -84,3 +84,13 @@ func (h *Handler) GetAllUserChoiceHandler(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, result)
 }
+
+func (h *Handler) GetIntervalHandler(c echo.Context) error {
+	allowFrom := os.Getenv("ALLOW_FROM")
+	allowTo := os.Getenv("ALLOW_TO")
+
+	return c.JSON(http.StatusOK, schemas.IntervalResponse{
+		From: allowFrom,
+		To:   allowTo,
+	})
+}

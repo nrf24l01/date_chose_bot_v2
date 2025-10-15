@@ -13,3 +13,8 @@ type VotedUser struct {
 	UserName string   `json:"user_name"`
 	Dates    []string `json:"dates"`
 }
+
+type IntervalResponse struct {
+	From string `json:"from"`
+	To   string `json:"to"`
+}

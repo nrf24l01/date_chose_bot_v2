@@ -169,3 +169,49 @@ paths:
                   error:
                     type: string
                     example: Unauthorized
+
+  /date/interval:
+    get:
+      summary: Get date selection interval
+      description: Returns the start and end dates for the selection interval.
+      responses:
+        '200':
+          description: Date selection interval
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  start_date:
+                    type: string
+                    format: date
+                    description: Start date of the interval (YYYY-MM-DD)
+                    example: "2024-01-01"
+                  end_date:
+                    type: string
+                    format: date
+                    description: End date of the interval (YYYY-MM-DD)
+                    example: "2024-12-31"
+                required:
+                  - start_date
+                  - end_date
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Bad request
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized

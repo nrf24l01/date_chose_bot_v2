@@ -16,7 +16,7 @@
       }"
     >
       <div class="text-lg font-bold text-center mb-2">
-        Пикник планер
+        Даты выбиралка
       </div>
       <div class="text-sm font-medium text-center">
         {{ userName }}
@@ -144,9 +144,41 @@ function safe(themeValue, fallback) {
   return themeValue && typeof themeValue === 'string' && themeValue.trim() !== '' ? themeValue : fallback;
 }
 
-// Move env variables to script
-const minDate = import.meta.env.VITE_ALLOW_FROM + 'T00:00:00Z';
-const maxDate = import.meta.env.VITE_ALLOW_TO + 'T23:59:59Z';
+// Fetch interval from backend (no auth required)
+const minDate = ref(null);
+const maxDate = ref(null);
+
+async function fetchInterval() {
+  try {
+    const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/date/interval', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      showFeedback(`Ошибка ответа сервера (interval): ${res.status} ${text}`, true);
+      return;
+    }
+
+    const data = await res.json();
+    if (data.start_date && data.end_date) {
+      // keep same format as previous env-based values (ISO datetimes)
+      minDate.value = data.start_date + 'T00:00:00Z';
+      maxDate.value = data.end_date + 'T23:59:59Z';
+    } else {
+      showFeedback('Неверный формат данных интервала от сервера', true);
+    }
+  } catch (err) {
+    showFeedback(`Ошибка при получении интервала: ${err?.message || err}`, true);
+    console.error(err);
+  }
+}
+
+// Fetch immediately (no auth gating)
+fetchInterval();
 
 // Handle date selection
 function handleDateSelection(date) {
