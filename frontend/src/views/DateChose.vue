@@ -39,7 +39,7 @@
       />
       <Error
         v-else
-        :error="'Для использования этого приложения, пожалуйста, откройте его через Telegram. ' + minDate + ' - ' + maxDate"
+        :error="'Для использования этого приложения, пожалуйста, откройте его через Telegram."
       />
     </div>
 
@@ -109,13 +109,21 @@ const unavailableValue = '0001-01-01';
 const tg = window.Telegram?.WebApp;
 
 onMounted(() => {
-  // Initialize Telegram WebApp
   if (tg) {
     tg.ready();
     tg.expand();
-    initdata.value = tg.initDataUnsafe;
-    if (initdata.value?.user?.id) {
+    // use initDataUnsafe or fallback to stored data
+    let data = tg.initDataUnsafe;
+    if (!data?.user?.id) {
+      const stored = localStorage.getItem('tg_initData');
+      if (stored) data = JSON.parse(stored);
+    }
+    initdata.value = data;
+    if (data?.user?.id) {
       authorized.value = true;
+      // persist initData and initDataUnsafe for reloads
+      localStorage.setItem('tg_initData_string', tg.initData);
+      localStorage.setItem('tg_initData', JSON.stringify(data));
       getPreviousDates();
     }
   }
@@ -197,17 +205,18 @@ function formatDate(date) {
 
 // Handle confirmation (send to backend, then close WebApp)
 async function confirmSelection() {
-  if (selectedDates.length === 0) {
+  if (selectedDates.value.length === 0) {
     showFeedback('Пожалуйста, выберите дату', true);
     return;
   }
   loading.value = true;
   try {
+    const token = tg.initData || localStorage.getItem('tg_initData_string');
     const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/date/choice', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        "Authorization": `tma ${tg.initData}`
+        'Authorization': `tma ${token}`
       },
       body: JSON.stringify({
         dates: selectedDates.value.map(date => {
@@ -221,15 +230,15 @@ async function confirmSelection() {
     if (!response.ok) {
       const errorText = await response.text();
       showFeedback(`Ошибка ответа сервера: ${response.status} ${errorText}`, true);
-      throw `Ошибка ответа сервера: ${response.status} ${errorText}`;
+      throw new Error(`Ошибка ответа сервера: ${response.status} ${errorText}`);
     }
     showFeedback('Дата подтверждена!');
-    } catch (error) {
+  } catch (error) {
     showFeedback(`Ошибка при отправке данных: ${error?.message || error}`, true);
     console.error(error);
-    } finally {
+  } finally {
     loading.value = false;
-    }
+  }
 }
 
 // Mark/unmark as unavailable (switcher)
@@ -252,11 +261,13 @@ function showFeedback(message, error = false) {
 }
 
 async function getPreviousDates() {
+  // retrieve token from Telegram or storage
+  const token = tg.initData || localStorage.getItem('tg_initData_string');
   const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/date/choiced', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      "Authorization": `tma ${tg.initData}`
+      "Authorization": `tma ${token}`
     }
   });
   if (!response.ok) {
